@@ -1,5 +1,6 @@
 package com.freshfastfood.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -84,7 +85,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements GetResult.
         mAuth = FirebaseAuth.getInstance();
         phonenumber = getIntent().getStringExtra("phone");
         phonecode = getIntent().getStringExtra("code");
-        //sendVerificationCode(phonecode + phonenumber);
+        sendVerificationCode(phonecode + phonenumber);
         txtMob.setText("We have sent you an SMS on " + phonecode + " " + phonenumber + "\n with 6 digit verification code");
         try {
             new CountDownTimer(60000, 1000) {
@@ -136,15 +137,15 @@ public class VerifyPhoneActivity extends AppCompatActivity implements GetResult.
                 });
     }
 
-    /*private void sendVerificationCode(String number) {
+    private void sendVerificationCode(String number) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 number,
                 60,
                 TimeUnit.SECONDS,
-                TaskExecutors.MAIN_THREAD,
+                (Activity) TaskExecutors.MAIN_THREAD,
                 mCallBack
         );
-    }*/
+    }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks
             mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -208,7 +209,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements GetResult.
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //sendVerificationCode(phonecode + phonenumber);
+                sendVerificationCode(phonecode + phonenumber);
                 break;
             default:
                 break;
